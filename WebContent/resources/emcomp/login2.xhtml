@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+    <title>This content will not be displayed</title>
+</h:head>
+<h:body>
+    <composite:interface name="foo"
+                         displayName="Very Simple Login Panel"
+                         preferred="true"
+                         expert="false"
+                         shortDescription="An illustration of the composite component feature">
+        <composite:attribute name="model" required="true">
+            <composite:attribute name="loginAction" required="true" method-signature="java.lang.Object action()"/ >
+        </composite:attribute>
+        <composite:attribute name="valueChangeListener" targets="username" />
+        <composite:attribute name="specialMethodExpression"
+                             method-signature="com.foo.User validateCurrentUser()" />
+        <composite:attribute name="loginButtonLabel" default="Login" />
+        <composite:editableValueHolder name="username" />
+        <composite:actionSource name="loginEvent" />
+        <composite:actionSource name="cancelEvent" />
+        <composite:actionSource name="allEvents" targets="loginEvent cancelEvent" />
+    </composite:interface>
+
+    <composite:implementation >
+        <ui:decorate template="fooTemplate.xhtml">
+            <ui:define name="header">
+                <p>This is the login panel header</p>
+            </ui:define>
+
+            <ui:define name="body">
+                <p><h:inputText id="username" /></p>
+                <p>
+                    <h:commandButton id="loginEvent" value="#{cc.attrs.loginButtonLabel}"></h:commandButton>
+                    <h:commandButton id="cancelEvent" value="Cancel" action="cancel"></h:commandButton>
+                    <special:validateUserButton validateAUser="#{cc.attrs.specialMethodExpression}" />
+                </p>
+            </ui:define>
+
+            <ui:define name="footer">
+                <p>This is the login panel footer</p>
+            </ui:define>
+        </ui:decorate>
+    </composite:implementation>
+</h:body>
+</html>
